@@ -82,7 +82,7 @@ if (isset($_POST['add_to_cart'])) {
     <?php include 'index_header.php' ?>
     <?php
     if (isset($message)) {
-        foreach ($message as $message) {
+        foreach ($messages as $message) {
             echo '
         <div class="message" id= "messages"><span>' . $message . '</span>
         </div>
@@ -127,7 +127,7 @@ if (isset($_POST['add_to_cart'])) {
 
         <div class="container px-5 mx-auto">
             <h2 class="m-8 font-extrabold text-4xl text-center border-t-2 " style="color: rgb(0, 167, 245);">
-                New Arrived
+                Sách Mới
             </h2>
         </div>
     </section>
@@ -147,7 +147,7 @@ if (isset($_POST['add_to_cart'])) {
 
                             <div style="font-weight: 500; font-size:18px; text-align: center; " class="name"> <?php echo $fetch_book['name']; ?></div>
                         </div>
-                        <div class="price">Giá: <?php echo $fetch_book['price']; ?></div>
+                        <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
                         <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
                         <form action="" method="POST">
                             <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">
@@ -174,7 +174,7 @@ if (isset($_POST['add_to_cart'])) {
 
         <div class="container px-5 mx-auto">
             <h2 class="text-gray-400 m-8 font-extrabold text-4xl text-center border-t-2 text-red-800" style="color: rgb(0, 167, 245);" >
-                Adventure
+                Văn học
             </h2>
         </div>
     </section>
@@ -194,7 +194,7 @@ if (isset($_POST['add_to_cart'])) {
 
                             <div style="font-weight: 500; font-size:18px; text-align: center; " class="name"> <?php echo $fetch_book['name']; ?></div>
                         </div>
-                        <div class="price">Giá: Vnd <?php echo $fetch_book['price']; ?>/-</div>
+                        <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
                         <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
                         <form action="" method="POST">
                             <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">
@@ -240,7 +240,7 @@ if (isset($_POST['add_to_cart'])) {
 
                             <div style="font-weight: 500; font-size:18px; text-align: center;" class="name"> <?php echo $fetch_book['name']; ?></div>
                         </div>
-                        <div class="price">Giá: Vnd <?php echo $fetch_book['price']; ?>/-</div>
+                        <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
                         <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
                         <form action="" method="POST">
                             <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">
@@ -285,7 +285,7 @@ if (isset($_POST['add_to_cart'])) {
 
                             <div style="font-weight: 500; font-size:18px; text-align: center;" class="name"> <?php echo $fetch_book['name']; ?></div>
                         </div>
-                        <div class="price">Giá: Vnd <?php echo $fetch_book['price']; ?>/-</div>
+                        <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
                         <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
                         <form action="" method="POST">
                             <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">

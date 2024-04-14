@@ -43,18 +43,18 @@ if (isset($_GET['delete_msg'])) {
          while($fetch_user = mysqli_fetch_assoc($select_user)){
    ?>
    <div class="box">
-       <div class="name">Message ID: <?php echo $fetch_user['id']; ?></div>
-      <div class="name">Name: <?php echo $fetch_user['name']; ?></div>
-      <div class="name">Email ID: <?php echo $fetch_user['email']; ?></div>
-      <div class="password">Number: <?php echo $fetch_user['number']; ?></div>
-      <div class="price">Message: <?php echo wordwrap($fetch_user['msg'],30,"<br>\n",TRUE); ?></div>
-      <div class="price">Date: <?php echo $fetch_user['date']; ?></div>
-      <a href="message_admin.php?delete_msg=<?php echo $fetch_user['id']; ?>" onclick="return confirm('delete this message?');">Delete</a>
+       <div class="name">ID tin nhắn: <?php echo $fetch_user['id']; ?></div>
+      <div class="name">Tên: <?php echo $fetch_user['name']; ?></div>
+      <div class="name">Tài khoản: <?php echo $fetch_user['email']; ?></div>
+      <div class="password">Mật khẩu: <?php echo $fetch_user['number']; ?></div>
+      <div class="price">Tin nhắn: <?php echo wordwrap($fetch_user['msg'],30,"<br>\n",TRUE); ?></div>
+      <div class="price">Ngày: <?php echo $fetch_user['date']; ?></div>
+      <a href="message_admin.php?delete_msg=<?php echo $fetch_user['id']; ?>" onclick="return confirm('xóa tin nhắn?');">Xóa</a>
    </div>
    <?php
       }
    }else{
-      echo '<p class="empty">No any message recived yet!</p>';
+      echo '<p class="empty">Chưa nhận được tin nhắn nào!</p>';
    }
    ?>
     </div>

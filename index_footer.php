@@ -24,8 +24,13 @@
         }
 
         .short_links ul {
-            margin: 0 110px;
-        }
+    margin: 0 0px; /* Cách đều 2 bên 30px */
+}
+
+.short_links ul:not(:last-child) {
+    margin-right: 140px; /* Các cột cách nhau 25px */
+}
+
 .sub_main .dropdown .dropbtn {
   border: none;
   cursor: pointer;
@@ -67,25 +72,10 @@
     <link rel="stylesheet" href="./css/hello.css">
 </head>
 
-<footer style="margin: 30px auto 0;">
-    <div class="main" style="align-items:center; padding:40px; ">
+<footer style="margin: 0px auto 0; ">
+    <div class="main" style="align-items:center; padding:5px; ">
         <div class="sub_main">
             <div class="short_links flex" style="justify-content:center; ">
-                <ul>
-                    <h2>Truy cập nhanh</h2>
-                    <li><a href="index.php">Trang chủ</a></li>
-                    <li>
-                        <div class="dropdown">
-                            <a class="dropbtn">Phân loại🔻</a>
-                            <div class="dropdown-content">
-                                <a href="index.php#Adventure">Adventure</a>
-                                <a href="index.php#Magical">Magic</a>
-                                <a href="index.php#Knowledge">Knowledge</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li><a href="about-us.php">Về chúng tôi</a></li>
-                </ul>
                 <?php
                 if(isset($_SESSION['user_name'])){echo'
                 <ul class="account">
@@ -103,7 +93,18 @@
                     <li>contact@bookflix.com</li>
                     <li>Address: Mumbai 400065</li>
                 </ul>
-
+                <ul>
+                    <h2>Truy cập nhanh</h2>
+                    
+                </ul>
+                <ul>
+                    <h2>Cửa hàng </h2>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15673.406204299408!2d106.78244315!3d10.8608434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175276e7ea103df%3A0xb6cf10bb7d719327!2zSFVURUNIIC0gxJDhuqFpIGjhu41jIEPDtG5nIG5naOG7hyBUUC5IQ00gKFRodSBEdWMgQ2FtcHVzKQ!5e0!3m2!1svi!2s!4v1713118775819!5m2!1svi!2s"
+                         width="350" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                       <h2>Fanpage</h2>
+                         <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FitHutech&tabs&width=350&height=200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId"
+                         width="350" height="200" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                    </ul>
             </div>
         </div>
         <div style=" align-items:center; justify-content:center; margin:20px 0 0 ;" class="cmsg flex">

@@ -138,7 +138,7 @@ if (isset($_GET['delete'])) {
    <?php include 'admin_header.php'; ?>
    <?php
    if (isset($message)) {
-      foreach ($message as $message) {
+      foreach ($messages as $message) {
          echo '
         <div class="message" id= "messages"><span>' . $message . '</span>
         </div>
@@ -149,7 +149,7 @@ if (isset($_GET['delete'])) {
 
    <section class="placed-orders">
 
-      <h1 class="title">placed orders</h1>
+      <h1 class="title">ĐƠN ĐẶT HÀNG</h1>
 
       <div class="box-container">
          <?php
@@ -181,7 +181,7 @@ if (isset($_GET['delete'])) {
          <?php
             }
          } else {
-            echo '<p class="empty">no orders placed yet!</p>';
+            echo '<p class="empty">Chưa có đơn đặt hàng nào được đặt!</p>';
          }
          ?>
       </div>

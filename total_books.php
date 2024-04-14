@@ -31,7 +31,7 @@ if(isset($_POST['update_product'])){
 
   if(!empty($update_image)){
      if($update_image_size > 2000000){
-        $message[] = 'image file size is too large';
+        $message[] = 'kích thước tệp hình ảnh quá lớn';
      }else{
         mysqli_query($conn, "UPDATE `book_info` SET image = '$update_image' WHERE bid = '$update_p_id'") or die('query failed');
         move_uploaded_file($update_image_tmp_name, $update_folder);
@@ -53,7 +53,7 @@ if(isset($_POST['update_product'])){
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/register.css">
-  <title>Add Books</title>
+  <title>Thêm Sách</title>
 </head>
 
 <body>
@@ -62,7 +62,7 @@ if(isset($_POST['update_product'])){
   ?>
   <?php
   if (isset($message)) {
-    foreach ($message as $message) {
+    foreach ($messages as $message) {
       echo '
         <div class="message"><span>' . $message . '</span><i onclick="this.parentElement.remove();">Close</i>
         </div>
@@ -70,7 +70,7 @@ if(isset($_POST['update_product'])){
     }
   }
   ?>
-<a class="update_btn" style="position: fixed ; z-index:100;" href="add_books.php">Add More Books</a>
+<a class="update_btn" style="position: fixed ; z-index:100;" href="add_books.php">Thêm Sách</a>
 
 <section class="edit-product-form">
    <?php
@@ -117,16 +117,16 @@ if(isset($_POST['update_product'])){
       ?>
       <div class="box">
          <img class="books_images" src="added_books/<?php echo $fetch_book['image']; ?>" alt="">
-         <div class="name">Aurthor: <?php echo $fetch_book['title']; ?></div>
-         <div class="name">Name: <?php echo $fetch_book['name']; ?></div>
-         <div class="price">Price: ₹ <?php echo $fetch_book['price']; ?>/-</div>
-         <a href="total_books.php?update=<?php echo $fetch_book['bid']; ?>" class="update_btn">update</a>
-         <a href="total_books.php?delete=<?php echo $fetch_book['bid']; ?>" class="delete_btn" onclick="return confirm('delete this product?');">delete</a>
+         <div class="name">Tên sách: <?php echo $fetch_book['name']; ?></div>
+         <div class="name">Tác giả: <?php echo $fetch_book['title']; ?></div>
+         <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
+         <a href="total_books.php?update=<?php echo $fetch_book['bid']; ?>" class="update_btn">Cập nhật</a>
+         <a href="total_books.php?delete=<?php echo $fetch_book['bid']; ?>" class="delete_btn" onclick="return confirm('Xóa sản phẩm này?');">Xóa</a>
       </div>
       <?php
          }
       }else{
-         echo '<p class="empty">no products added yet!</p>';
+         echo '<p class="empty">Chưa có sản phẩm nào được thêm vào!</p>';
       }
       ?>
    </div>
