@@ -26,7 +26,7 @@ $html='<!DOCTYPE html>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Invoice</title>
+    <title>Chi tiet hoa don</title>
     <style>
    
     .invoice .section-top{
@@ -77,41 +77,41 @@ $html='<!DOCTYPE html>
     <div class="invoice">
           <div class="section-top">
             <div class="logo">
-                <a><span>Bookflix &</span>
-                    <span class="me">Chill</span></a>
+                <a><span>Triple &</span>
+                    <span class="me">Trouble</span></a>
             </div>
-            <div class="invoice-title">Invoice Details</div>
+            <div class="invoice-title">Chi tiet hoa don</div>
           </div>
           <hr>
         <table>
         <tr>
           <th class="details"><div class="section-mid-one">
-          <h3>SHIPPING ADDRESS:</h3>
+          <h3>THONG TIN DON HANG:</h3>
           <div class="buyer-details">
-              <p class="buyer-name">To,   '.$fetch_order['name'].' </p>
-              <p class="buyer-add"> '.$fetch_details['address'].'</p>
-              <p class="buyer-area"> '.$fetch_details['city'].'</p>
-              <p class="buyer-city"> '.$fetch_details['state'].'</p>
-              <p class="buyer-STATE"> '.$fetch_details['country'].'</p>
-              <p class="buyer-STATE"> '.$fetch_details['pincode'].'</p>
+              <p class="buyer-name">To   '.$fetch_order['name'].' </p>
+              <p class="buyer-add">Dia chi: '.$fetch_details['address'].'</p>
+              <p class="buyer-area">TP: '.$fetch_details['city'].'</p>
+              <p class="buyer-city">Noi dat: '.$fetch_details['state'].'</p>
+              <p class="buyer-STATE">Nguoi dat o: '.$fetch_details['country'].'</p>
+              <p class="buyer-STATE">Ma Pin: '.$fetch_details['pincode'].'</p>
           </div>
         </div></th>
-          <th class="details"><div class="section-mid-one"><h3>SOLD BY:</h3>
+          <th class="details"><div class="section-mid-one"><h3>BAN BOI:</h3>
           <div class="buyer-details">
-              <p class="buyer-name">By,  Bookflix & Chill</p>
-              <p class="buyer-add">xasxs</p>
-              <p class="buyer-area">xwaxw</p>
-              <p class="buyer-city">xawxsssxzq</p>
-              <p class="buyer-STATE">xwasx</p>
+              <p class="buyer-name">By  Triple & Trouble</p>
+              <p class="buyer-add"> Duyet don: Admin</p>
+              <p class="buyer-area"></p>
+              <p class="buyer-city"></p>
+              <p class="buyer-STATE"></p>
           </div>
       </div></th>
-          <th class="details"><div class="section-mid-one"><h3>Details:</h3>
+          <th class="details"><div class="section-mid-one"><h3>Chi Tiet:</h3>
             <div class="buyer-details">
-                <p class="buyer-name">Invoice Date:  '.$fetch_order['date'].'</p>
-                <p class="buyer-add">Order ID: '.$fetch_order['order_id'].' </p>
-                <p class="buyer-area">Order Date: '.$fetch_order['order_date'].'</p>
-                <p class="buyer-city">From: Read Me</p>
-                <p class="buyer-STATE">Payment Method: '.$fetch_order['payment_method'].' </p>
+                <p class="buyer-name">Chi tiet hoa don:  '.$fetch_order['date'].'</p>
+                <p class="buyer-add">ID Don: '.$fetch_order['order_id'].' </p>
+                <p class="buyer-area">Ngay dat don: '.$fetch_order['order_date'].'</p>
+                <p class="buyer-city">From: HCM</p>
+                <p class="buyer-STATE">Hinh thuc thanh toan: '.$fetch_order['payment_method'].' </p>
             </div>
         </div></th>
         </tr>
@@ -123,10 +123,10 @@ $html='<!DOCTYPE html>
         <table style="width: 100%;">
           <thead>
             <th>S.No.</th>
-            <th>BOOK NAME</th>
-            <th>QTY</th>
-            <th>UNIT PRICE</th>
-            <th>Total</th>
+            <th>TEN SACH</th>
+            <th>SL</th>
+            <th>GIA TIEN</th>
+            <th>THANH TIEN</th>
           </thead>
           <tbody>';
           
@@ -148,7 +148,7 @@ $html='<!DOCTYPE html>
             
           $html.= '<tr style="margin: 10px 0 0 0;">
           <th></th>
-          <th colspan="2" class="colspan">NET TOTAL</th>
+          <th colspan="2" class="colspan">TONG TIEN</th>
           <th colspan="2"class="colspan"> '.$fetch_order['total_price'].'</th>
           
         </tr>';
@@ -157,7 +157,7 @@ $html='<!DOCTYPE html>
       </div>
       <hr />
       <div>
-        <div class="sign">Bookflix & Chill</div>
+        <div class="sign">Tripble & Trouble</div>
       </div>
     </div>
   </body>
