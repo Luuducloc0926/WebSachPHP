@@ -16,10 +16,10 @@ if (isset($_POST['checkout'])) {
   $method = mysqli_real_escape_string($conn, $_POST['method']);
   $address = mysqli_real_escape_string($conn, $_POST['address']);
   $city = mysqli_real_escape_string($conn, $_POST['city']);
-  $state = mysqli_real_escape_string($conn, $_POST['state']);
-  $country = mysqli_real_escape_string($conn, $_POST['country']);
-  $pincode = mysqli_real_escape_string($conn, $_POST['pincode']);
-  $full_address = mysqli_real_escape_string($conn, $_POST['address'] . ', ' . $_POST['city'] . ', ' . $_POST['state'] . ', ' . $_POST['country'] . ' - ' . $_POST['pincode']);
+  // $state = mysqli_real_escape_string($conn, $_POST['state']);
+  // $country = mysqli_real_escape_string($conn, $_POST['country']);
+  // $pincode = mysqli_real_escape_string($conn, $_POST['pincode']);
+  $full_address = mysqli_real_escape_string($conn, $_POST['address'] . ', ' . $_POST['city'] );
   $placed_on = date('d-M-Y');
 
   $cart_total = 0;
@@ -34,12 +34,12 @@ if (isset($_POST['checkout'])) {
     $message[] = 'Vui lòng nhập địa chỉ';
   } elseif (empty($city)) {
     $message[] = 'Vui lòng nhập thành phố';
-  } elseif (empty($state)) {
-    $message[] = 'Vui lòng nhập địa chỉ';
-  } elseif (empty($country)) {
-    $message[] = 'Vui lòng nhập quốc gia';
-  } elseif (empty($pincode)) {
-    $message[] = 'Vui lòng nhập mã khu vực';
+  // } elseif (empty($state)) {
+  //   $message[] = 'Vui lòng nhập địa chỉ';
+  // } elseif (empty($country)) {
+  //   $message[] = 'Vui lòng nhập quốc gia';
+  // } elseif (empty($pincode)) {
+  //   $message[] = 'Vui lòng nhập mã khu vực';
   } else {
 
     $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
@@ -85,7 +85,7 @@ if (isset($_POST['checkout'])) {
             $sub_total = ($cart_item['price'] * $cart_item['quantity']);
             $cart_total += $sub_total;
           
-            mysqli_query($conn, "INSERT INTO `orders`(user_id,id,address,city,state,country,pincode,book,quantity,unit_price,sub_total) VALUES('$user_id','$conn_oid','$address','$city','$state','$country','$pincode','$cart_books','$quantity','$unit_price','$sub_total')") or die('query failed');
+            mysqli_query($conn, "INSERT INTO `orders`(user_id,id,address,city,book,quantity,unit_price,sub_total) VALUES('$user_id','$conn_oid','$address','$city','$cart_books','$quantity','$unit_price','$sub_total')") or die('query failed');
           }
         }
 
@@ -259,15 +259,16 @@ if (isset($_POST['checkout'])) {
   <?php include 'index_header.php'; ?>
 
   <?php
-  if (isset($message)) {
-    foreach ($messages as $message) {
-      echo '
-        <div class="message" id= "messages"><span>' . $message . '</span>
+    if(isset($message)){
+      foreach($message as $message){
+        echo '
+        <div class="message" id= "messages"><span>'.$message.'</span>
         </div>
         ';
+      }
     }
-  }
-  ?>
+    ?>
+
 
   <h1 style="text-align: center; margin-top:15px;  color:rgb(9, 152, 248);">Đặt hàng tại đây </h1>
   <p style="text-align: center; ">Chỉ cần một bước nữa là bạn có thể nhận được sách của mình</p>
@@ -289,17 +290,17 @@ if (isset($_POST['checkout'])) {
               <input type="text" id="adr" name="address" placeholder="Thu Duc">
               <label for="city"><i class="fa fa-institution"></i> Thành phố</label>
               <input type="text" id="city" name="city" placeholder="Ho Chi Minh">
-              <label for="city"><i class="fa fa-institution"></i> Địa chỉ</label>
-              <input type="text" id="city" name="state" placeholder="Duong Hiep Binh">
+              <!-- <label for="city"><i class="fa fa-institution"></i> Địa chỉ</label> -->
+              <!-- <input type="text" id="city" name="state" placeholder="Duong Hiep Binh"> -->
 
               <div style="padding: 0px;" class="row">
                 <div class="col-50">
-                  <label for="state">Quốc gia</label>
-                  <input type="text" id="state" name="country" placeholder="vietnam">
+                  <!-- <label for="state">Quốc gia</label> -->
+                  <!-- <input type="text" id="state" name="country" placeholder="vietnam"> -->
                 </div>
                 <div class="col-50">
-                  <label for="zip">Pincode</label>
-                  <input type="text" id="zip" name="pincode" placeholder="123">
+                  <!-- <label for="zip">Pincode</label> -->
+                  <!-- <input type="text" id="zip" name="pincode" placeholder="123"> -->
                 </div>
               </div>
             </div>
@@ -320,7 +321,7 @@ if (isset($_POST['checkout'])) {
                   <?php
                     }
                   } else {
-                    echo '<p class="empty">your cart is empty</p>';
+                    echo '<p class="empty">giỏ hàng trống!</p>';
                   }
                   ?>
 
@@ -354,7 +355,7 @@ if (isset($_POST['checkout'])) {
           <label>
             <input type="checkbox" checked="checked" name="sameadr"> Địa chỉ giao hàng giống như địa chỉ thanh toán
           </label>
-          <input type="submit" name="checkout" value="Continue to checkout" class="btn">
+          <input type="submit" name="checkout" value="Tiếp tục thanh toán" class="btn">
         </form>
       </div>
     </div>

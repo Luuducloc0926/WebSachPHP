@@ -88,7 +88,7 @@ if(!isset($user_id)){
          <p> Địa chỉ : <span><?php echo $fetch_book['address']; ?></span> </p>
          <p> Phương thức thanh toán : <span><?php echo $fetch_book['payment_method']; ?></span> </p>
          <p> Đơn đặt : <span><?php echo $fetch_book['total_books']; ?></span> </p>
-         <p> Tổng cộng : <span>₹ <?php echo $fetch_book['total_price']; ?>/-</span> </p>
+         <p> Tổng cộng : <span><?php echo number_format($fetch_book['total_price'], 0, ',', '.') . '₫'; ?></span> </p>
          <p> Trạng thái thanh toán : <span style="color:<?php if($fetch_book['payment_status'] == 'pending'){ echo 'orange'; }else{ echo 'green'; } ?>;"><?php echo $fetch_book['payment_status']; ?></span> </p>
          <p><a href="invoice.php?order_id=<?php echo $fetch_book['order_id']; ?>" target="_blank">In hóa đơn</a></p>
          </div>
