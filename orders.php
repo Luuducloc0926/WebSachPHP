@@ -80,17 +80,17 @@ if(!isset($user_id)){
             while($fetch_book = mysqli_fetch_assoc($select_book)){
       ?>
       <div class="box">
-         <p> Order Date : <span><?php echo $fetch_book['order_date']; ?></span> </p>
-         <p> Order Id : <span># <?php echo $fetch_book['order_id']; ?> </p>
-         <p> Name : <span><?php echo $fetch_book['name']; ?></span> </p>
-         <p> Mobile Number : <span><?php echo $fetch_book['number']; ?></span> </p>
-         <p> Email Id : <span><?php echo $fetch_book['email']; ?></span> </p>
-         <p> Address : <span><?php echo $fetch_book['address']; ?></span> </p>
-         <p> Payment Method : <span><?php echo $fetch_book['payment_method']; ?></span> </p>
-         <p> Your orders : <span><?php echo $fetch_book['total_books']; ?></span> </p>
-         <p> Total price : <span>₹ <?php echo $fetch_book['total_price']; ?>/-</span> </p>
-         <p> Payment status : <span style="color:<?php if($fetch_book['payment_status'] == 'pending'){ echo 'orange'; }else{ echo 'green'; } ?>;"><?php echo $fetch_book['payment_status']; ?></span> </p>
-         <p><a href="invoice.php?order_id=<?php echo $fetch_book['order_id']; ?>" target="_blank">Print Recipt</a></p>
+         <p> Ngày đặt : <span><?php echo $fetch_book['order_date']; ?></span> </p>
+         <p> Mã đơn : <span># <?php echo $fetch_book['order_id']; ?> </p>
+         <p> Tên khách hàng : <span><?php echo $fetch_book['name']; ?></span> </p>
+         <p> Số điện thoại : <span><?php echo $fetch_book['number']; ?></span> </p>
+         <p> Email : <span><?php echo $fetch_book['email']; ?></span> </p>
+         <p> Địa chỉ : <span><?php echo $fetch_book['address']; ?></span> </p>
+         <p> Phương thức thanh toán : <span><?php echo $fetch_book['payment_method']; ?></span> </p>
+         <p> Đơn đặt : <span><?php echo $fetch_book['total_books']; ?></span> </p>
+         <p> Tổng cộng : <span>₹ <?php echo $fetch_book['total_price']; ?>/-</span> </p>
+         <p> Trạng thái thanh toán : <span style="color:<?php if($fetch_book['payment_status'] == 'pending'){ echo 'orange'; }else{ echo 'green'; } ?>;"><?php echo $fetch_book['payment_status']; ?></span> </p>
+         <p><a href="invoice.php?order_id=<?php echo $fetch_book['order_id']; ?>" target="_blank">In hóa đơn</a></p>
          </div>
          <!-- <form action="" method="POST">
          <input type="hidden" name="order_id" value="<?php echo $fetch_book['order_id']; ?>">
@@ -98,7 +98,7 @@ if(!isset($user_id)){
       <?php
        }
       }else{
-         echo '<p class="empty">You have not placed any order yet!!!!</p>';
+         echo '<p class="empty">Bạn chưa đặt đơn hàng nào!!!!</p>';
       }
       ?>
    </div>

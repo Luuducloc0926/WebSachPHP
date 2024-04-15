@@ -73,18 +73,18 @@ font-weight: 600;
             <span class="me">Me</span></a>
     </div>
     <div class="nav">
-        <a href="index.php">Home</a>
+        <a href="index.php">Trang chủ</a>
         <div class="dropdown">
-            <button class="dropbtn">Category🔻</button>
+            <button class="dropbtn">Phân loại🔻</button>
             <div class="dropdown-content">
                 <a href="#">Adventure</a>
                 <a href="#">Magic</a>
                 <a href="#">Knowledge</a>
             </div>
         </div>
-        <a href="contact-us.php">Contact US</a>
-        <a href="cart.php">Cart</a>
-        <a href="orders.php">Orders</a>
+        <a href="contact-us.php">Liên hệ chúng tôi</a>
+        <a href="cart.php">Giỏ hàng</a>
+        <a href="orders.php">Đặt hàng</a>
     </div>
     <div class="user-box" style="display: flex;">
     <a class="Btn" href="search_books.php"><img style="height:25px;" src="./images/search2.png" alt=""></a>
@@ -114,7 +114,7 @@ font-weight: 600;
   <div class="sub-menu">
     <div class="user-info">
       <img src="images/user.png" />
-      <h2>James Aldrino</h2>
+      <h2>NNN</h2>
     </div>
     <hr />
     I
@@ -123,15 +123,15 @@ font-weight: 600;
       <span>></span>
     </a>
     <a href="#" class="sub-menu-link">
-      <p>Cart</p>
+      <p>Giỏ hàng</p>
       <span>></span>
     </a>
     <a href="#" class="sub-menu-link">
-      <p>Order history</p>
+      <p>Lịch sử đặt hàng</p>
       <span>></span>
     </a>
     <a href="#" class="sub-menu-link">
-      <p>Logout</p>
+      <p>Đăng xuất</p>
       <span>></span>
     </a>
   </div>

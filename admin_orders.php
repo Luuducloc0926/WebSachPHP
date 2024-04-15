@@ -17,7 +17,7 @@ if (isset($_POST['update_order'])) {
    $update_payment = $_POST['update_payment'];
    $date = date("d.m.Y");
    mysqli_query($conn, "UPDATE `confirm_order` SET payment_status = '$update_payment',date='$date' WHERE order_id = '$order_update_id'") or die('query failed');
-   $message[] = 'payment status has been updated!';
+   $message[] = 'trạng thái thanh toán đã được cập nhật!';
 }
 
 if (isset($_GET['delete'])) {
@@ -158,24 +158,24 @@ if (isset($_GET['delete'])) {
             while ($fetch_book = mysqli_fetch_assoc($select_orders)) {
          ?>
                <div class="box">
-                  <p> Order Date : <span><?php echo $fetch_book['order_date']; ?></span> </p>
-                  <p> Order Id : <span>#<?php echo $fetch_book['order_id']; ?> </p>
-                  <p> Name : <span><?php echo $fetch_book['name']; ?></span> </p>
-                  <p> Mobile Number : <span><?php echo $fetch_book['number']; ?></span> </p>
-                  <p> Email Id : <span><?php echo $fetch_book['email']; ?></span> </p>
-                  <p> Address : <span><?php echo $fetch_book['address']; ?></span> </p>
-                  <p> Payment Method : <span><?php echo $fetch_book['payment_method']; ?></span> </p>
-                  <p> Your orders : <span><?php echo $fetch_book['total_books']; ?></span> </p>
-                  <p> Total price : <span>₹ <?php echo $fetch_book['total_price']; ?>/-</span> </p>
+                  <p> Ngày đặt: <span><?php echo $fetch_book['order_date']; ?></span> </p>
+                  <p> Mã đơn: <span>#<?php echo $fetch_book['order_id']; ?> </p>
+                  <p> Tên: <span><?php echo $fetch_book['name']; ?></span> </p>
+                  <p> Số điện thoại: <span><?php echo $fetch_book['number']; ?></span> </p>
+                  <p> Email: <span><?php echo $fetch_book['email']; ?></span> </p>
+                  <p> Địa chỉ : <span><?php echo $fetch_book['address']; ?></span> </p>
+                  <p> Phương thức thanh toán: <span><?php echo $fetch_book['payment_method']; ?></span> </p>
+                  <p> Đơn đặt hàng: <span><?php echo $fetch_book['total_books']; ?></span> </p>
+                  <p> Tổng giá: <span>₹ <?php echo $fetch_book['total_price']; ?>/-</span> </p>
                   <form action="" method="post">
                      <input type="hidden" name="order_id" value="<?php echo $fetch_book['order_id']; ?>">
-                     Payment Status :<select name="update_payment">
+                     Tình trạng thanh toán:<select name="update_payment">
                         <option value="" selected disabled><?php echo $fetch_book['payment_status']; ?></option>
-                        <option value="pending">pending</option>
-                        <option value="completed">completed</option>
+                        <option value="pending">đang xử lý</option>
+                        <option value="completed">hoàn thành</option>
                      </select>
                      <input type="submit" value="update" name="update_order" class="cart-btn2">
-                     <a class="cart-btn1" href="admin_orders.php?delete=<?php echo $fetch_book['order_id']; ?>" onclick="return confirm('delete this order?');">delete</a>
+                     <a class="cart-btn1" href="admin_orders.php?delete=<?php echo $fetch_book['order_id']; ?>" onclick="return confirm('xóa đơn đặt hàng?');">Xóa!</a>
                   </form>
                </div>
          <?php
