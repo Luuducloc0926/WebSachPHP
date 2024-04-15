@@ -41,7 +41,7 @@ if (isset($_POST['add_books'])) {
       move_uploaded_file($img_temp_name, $img_file);
       $message[] = 'Thêm sách thành công';
     } else {
-      $message = 'Không thêm sách thành công';
+      $message = 'Thêm sách không thành công';
     }
   }
 }
@@ -71,7 +71,7 @@ if(isset($_POST['update_product'])){
 
   if(!empty($update_image)){
      if($update_image_size > 2000000){
-        $message[] = 'image file size is too large';
+        $message[] = 'kích thước tệp hình ảnh quá lớn';
      }else{
         mysqli_query($conn, "UPDATE `book_info` SET image = '$update_image' WHERE bid = '$update_p_id'") or die('query failed');
         move_uploaded_file($update_image_tmp_name, $update_folder);
@@ -102,7 +102,7 @@ if(isset($_POST['update_product'])){
   ?>
   <?php
   if (isset($message)) {
-    foreach ($message as $message) {
+    foreach ($messages as $message) {
       echo '
         <div class="message" id="messages"><span>' . $message . '</span>
         </div>
@@ -111,21 +111,21 @@ if(isset($_POST['update_product'])){
   }
   ?>
   
-<a class="update_btn" style="position: fixed ; z-index:100;" href="total_books.php">See All Books</a>
+<a class="update_btn" style="position: fixed ; z-index:100;" href="total_books.php">Xem tất cả sách</a>
   <div class="container_box">
     <form action="" method="POST" enctype="multipart/form-data">
-      <h3>Add Books To <a href="index.php"><span>Bookflix & </span><span>Chill</span></a></h3>
-      <input type="text" name="bname" placeholder="Enter book Name" class="text_field ">
-      <input type="text" name="btitle" placeholder="Enter Author name" class="text_field">
-      <input type="number" min="0" name="price" class="text_field" placeholder="enter product price">
+      <h3>Add Books To <a href="index.php"><span>Triple & </span><span>Trouble</span></a></h3>
+      <input type="text" name="bname" placeholder="Nhập tên sách" class="text_field ">
+      <input type="text" name="btitle" placeholder="Nhập tên tác giả" class="text_field">
+      <input type="number" min="0" name="price" class="text_field" placeholder="Nhập giá sách">
       <select name="Category" id="" required class="text_field">
             <option value="Adventure">Adventure</option>
             <option value="Magic">Magic</option>
             <option value="knowledge">knowledge</option>
          </select>
-      <textarea name="bdesc" placeholder="Enter book description" id="" class="text_field" cols="18" rows="5"></textarea>
+      <textarea name="bdesc" placeholder="Mô tả" id="" class="text_field" cols="18" rows="5"></textarea>
       <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="text_field">
-      <input type="submit" value="Add Book" name="add_books" class="btn text_field">
+      <input type="submit" value="Thêm sách" name="add_books" class="btn text_field">
     </form>
   </div>
 
@@ -142,15 +142,15 @@ if(isset($_POST['update_product'])){
    <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['bid']; ?>">
    <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['image']; ?>">
    <img src="./added_books/<?php echo $fetch_update['image']; ?>" alt="">
-   <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Enter Book Name">
-   <input type="text" name="update_title" value="<?php echo $fetch_update['title']; ?>" class="box" required placeholder="Enter Author Name">
+   <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Nhập tên sách">
+   <input type="text" name="update_title" value="<?php echo $fetch_update['title']; ?>" class="box" required placeholder="Nhập tên tác giả">
    <select name="update_category" value="<?php echo $fetch_update['category']; ?> required class="text_field">
          <option value="Adventure">Adventure</option>
          <option value="Magic">Magic</option>
          <option value="knowledge">knowledge</option>
       </select>
-   <input type="text" name="update_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="enter product description">
-   <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="enter product price">
+   <input type="text" name="update_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="Mô tả">
+   <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="Nhập giá sách">
    <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
    <input type="submit" value="update" name="update_product" class="delete_btn" >
    <input type="reset" value="cancel" id="close-update" class="update_btn" >
@@ -175,9 +175,9 @@ if(isset($_POST['update_product'])){
       ?>
       <div class="box">
          <img class="books_images" src="added_books/<?php echo $fetch_book['image']; ?>" alt="">
-         <div class="name">Aurthor: <?php echo $fetch_book['title']; ?></div>
-         <div class="name">Name: <?php echo $fetch_book['name']; ?></div>
-         <div class="price">Price: ₹ <?php echo $fetch_book['price']; ?>/-</div>
+         <div class="name">Tác giả: <?php echo $fetch_book['title']; ?></div>
+         <div class="name">Tên sách: <?php echo $fetch_book['name']; ?></div>
+         <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
          <a href="add_books.php?update=<?php echo $fetch_book['bid']; ?>" class="update_btn">update</a>
          <a href="add_books.php?delete=<?php echo $fetch_book['bid']; ?>" class="delete_btn" onclick="return confirm('delete this product?');">delete</a>
       </div>

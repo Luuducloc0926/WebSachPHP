@@ -44,7 +44,7 @@ if (isset($_POST['update_user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/register.css">
     <link rel="stylesheet" href="./css/index_book.css">
-    <title> User Data</title>
+    <title>Quản lý tài khoản</title>
 </head>
 
 <body>
@@ -61,18 +61,18 @@ if (isset($_POST['update_user'])) {
          while($fetch_user = mysqli_fetch_assoc($select_user)){
    ?>
    <div class="box">
-       <div class="name">User ID: <?php echo $fetch_user['Id']; ?></div>
-      <div class="name">Name: <?php echo $fetch_user['name']; ?>&nbsp;<?php echo $fetch_user['surname']; ?></div>
-      <div class="name">Email ID: <?php echo $fetch_user['email']; ?></div>
-      <div class="password">Password: <?php echo $fetch_user['password']; ?></div>
-      <div class="price"style="color:<?php if($fetch_user['user_type'] == 'Admin'){ echo 'red'; }else{ echo 'blue'; } ?>;">User type: <?php echo $fetch_user['user_type']; ?></div>
-      <a style="color:rgb(255, 187, 0);" href="users_detail.php?update_user=<?php echo $fetch_user['Id']; ?>">Update</a>
-      <a href="users_detail.php?delete_user=<?php echo $fetch_user['Id']; ?>" onclick="return confirm('Are you sure you want to delete this user');">Delete</a>
+       <div class="name">ID Người dùng: <?php echo $fetch_user['Id']; ?></div>
+      <div class="name">Tên: <?php echo $fetch_user['name']; ?>&nbsp;<?php echo $fetch_user['surname']; ?></div>
+      <div class="name">Tài khoản: <?php echo $fetch_user['email']; ?></div>
+      <div class="password">Mật khẩu: <?php echo $fetch_user['password']; ?></div>
+      <div class="price"style="color:<?php if($fetch_user['user_type'] == 'Admin'){ echo 'red'; }else{ echo 'blue'; } ?>;">Loại tài khoản: <?php echo $fetch_user['user_type']; ?></div>
+      <a style="" class="delete_btn" href="users_detail.php?update_user=<?php echo $fetch_user['Id']; ?>">Cập nhật</a>
+      <a href="users_detail.php?delete_user=<?php echo $fetch_user['Id']; ?>" class="update_btn" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');">Xóa</a>
    </div>
    <?php
       }
    }else{
-      echo '<p class="empty">no products added yet!</p>';
+      echo '<p class="empty">Chưa có người dùng nào được thêm vào!</p>';
    }
    ?>
     </div>

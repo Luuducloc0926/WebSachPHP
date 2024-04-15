@@ -41,7 +41,7 @@
   ?>
     <?php
     if(isset($message)){
-      foreach($message as $message){
+      foreach($messages as $message){
         echo '
         <div class="message" id= "messages"><span>'.$message.'</span>
         </div>

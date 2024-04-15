@@ -25,21 +25,21 @@ if (isset($_POST['checkout'])) {
   $cart_total = 0;
   $cart_products[] = '';
   if (empty($name)) {
-    $message[] = 'Nhập tên của bạn';
+    $message[] = 'Vui lòng nhập tên của bạn';
   } elseif (empty($email)) {
-    $message[] = 'Please Enter Email Id';
+    $message[] = 'Vui lòng nhập Email';
   } elseif (empty($number)) {
-    $message[] = 'Please Enter Mobile Number';
+    $message[] = 'Vui lòng nhập số điện thoại';
   } elseif (empty($address)) {
-    $message[] = 'Please Enter Address';
+    $message[] = 'Vui lòng nhập địa chỉ';
   } elseif (empty($city)) {
-    $message[] = 'Please Enter city';
+    $message[] = 'Vui lòng nhập thành phố';
   } elseif (empty($state)) {
-    $message[] = 'Please Enter state';
+    $message[] = 'Vui lòng nhập địa chỉ';
   } elseif (empty($country)) {
-    $message[] = 'Please Enter country';
+    $message[] = 'Vui lòng nhập quốc gia';
   } elseif (empty($pincode)) {
-    $message[] = 'Please Enter your area pincode';
+    $message[] = 'Vui lòng nhập mã khu vực';
   } else {
 
     $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
@@ -62,7 +62,7 @@ if (isset($_POST['checkout'])) {
 
 
     if (mysqli_num_rows($order_query) > 0) {
-      $message[] = 'order already placed!';
+      $message[] = 'đơn hàng đã được đặt rồi!';
     } 
     else {
       mysqli_query($conn, "INSERT INTO `confirm_order`(user_id, name, number, email, payment_method, address,total_books, total_price, order_date) VALUES('$user_id','$name', '$number', '$email','$method', '$full_address', '$total_books', '$cart_total', '$placed_on')") or die('query failed');
@@ -89,7 +89,7 @@ if (isset($_POST['checkout'])) {
           }
         }
 
-      $message[] = 'order placed successfully!';
+      $message[] = 'đơn hàng đã được đặt thành công!';
       mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
     }
   }
@@ -260,7 +260,7 @@ if (isset($_POST['checkout'])) {
 
   <?php
   if (isset($message)) {
-    foreach ($message as $message) {
+    foreach ($messages as $message) {
       echo '
         <div class="message" id= "messages"><span>' . $message . '</span>
         </div>
@@ -270,7 +270,7 @@ if (isset($_POST['checkout'])) {
   ?>
 
   <h1 style="text-align: center; margin-top:15px;  color:rgb(9, 152, 248);">Đặt hàng tại đây </h1>
-  <p style="text-align: center; ">Just One Step away from getting your books</p>
+  <p style="text-align: center; ">Chỉ cần một bước nữa là bạn có thể nhận được sách của mình</p>
   <div class="row">
     <div class="col-75">
       <div class="container">
@@ -278,28 +278,28 @@ if (isset($_POST['checkout'])) {
 
           <div class="row">
             <div class="col-50">
-              <h3>Billing Address</h3>
-              <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-              <input type="text" id="fname" name="firstname" placeholder="Pawan Mishra">
+              <h3>Thông tin nhận hàng</h3>
+              <label for="fname"><i class="fa fa-user"></i> Họ và tên</label>
+              <input type="text" id="fname" name="firstname" placeholder="Nguyen Van A">
               <label for="email"><i class="fa fa-envelope"></i> Email</label>
               <input type="text" id="email" name="email" placeholder="example@gmail.com">
-              <label for="email"><i class="fa fa-envelope"></i> Number</label>
-              <input type="text" id="email" name="number" placeholder="+91987456123">
-              <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-              <input type="text" id="adr" name="address" placeholder="Mumbai 60">
-              <label for="city"><i class="fa fa-institution"></i> City</label>
-              <input type="text" id="city" name="city" placeholder="Mumbai">
-              <label for="city"><i class="fa fa-institution"></i> State</label>
-              <input type="text" id="city" name="state" placeholder="Maharashtra">
+              <label for="email"><i class="fa fa-envelope"></i> Số điện thoại</label>
+              <input type="text" id="email" name="number" placeholder="+84123456789">
+              <label for="adr"><i class="fa fa-address-card-o"></i> Địa chỉ</label>
+              <input type="text" id="adr" name="address" placeholder="Thu Duc">
+              <label for="city"><i class="fa fa-institution"></i> Thành phố</label>
+              <input type="text" id="city" name="city" placeholder="Ho Chi Minh">
+              <label for="city"><i class="fa fa-institution"></i> Địa chỉ</label>
+              <input type="text" id="city" name="state" placeholder="Duong Hiep Binh">
 
               <div style="padding: 0px;" class="row">
                 <div class="col-50">
-                  <label for="state">Country</label>
-                  <input type="text" id="state" name="country" placeholder="india">
+                  <label for="state">Quốc gia</label>
+                  <input type="text" id="state" name="country" placeholder="vietnam">
                 </div>
                 <div class="col-50">
                   <label for="zip">Pincode</label>
-                  <input type="text" id="zip" name="pincode" placeholder="400060">
+                  <input type="text" id="zip" name="pincode" placeholder="123">
                 </div>
               </div>
             </div>
@@ -307,7 +307,7 @@ if (isset($_POST['checkout'])) {
             <div class="col-50">
               <div class="col-25">
                 <div class="container">
-                  <h4>Books In Cart</h4>
+                  <h4>Sách Trong Giỏ Hàng</h4>
                   <?php
                   $grand_total = 0;
                   $select_cart = mysqli_query($conn, "SELECT * FROM `cart`") or die('query failed');
@@ -316,7 +316,7 @@ if (isset($_POST['checkout'])) {
                       $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
                       $grand_total += $total_price;
                   ?>
-                      <p> <a href="book_details.php?details=<?php echo $fetch_cart['book_id']; ?>"><?php echo $fetch_cart['name']; ?></a><span class="price">(<?php echo '₹ ' . $fetch_cart['price'] . '/-' . ' x ' . $fetch_cart['quantity']; ?>)</span> </p>
+                     <p> <a href="book_details.php?details=<?php echo $fetch_cart['book_id']; ?>"><?php echo $fetch_cart['name']; ?></a><span class="price">(<?php echo number_format($fetch_cart['price'], 0, ',', '.') . ' ₫' . ' x ' . $fetch_cart['quantity']; ?>)</span> </p>
                   <?php
                     }
                   } else {
@@ -325,12 +325,12 @@ if (isset($_POST['checkout'])) {
                   ?>
 
                   <hr>
-                  <p>Grand total : <span class="price" style="color:black">₹ <b><?php echo $grand_total; ?>/-</b></span></p>
+                  <p>Tổng cộng : <span class="price" style="color:black"><?php echo number_format($grand_total, 0, ',', '.') . '₫'; ?></span></p>
                 </div>
               </div>
               <div style="margin: 20px;">
-                <h3>Payment </h3>
-                <label for="fname">Accepted Payment Gateways</label>
+                <h3>Thanh toán </h3>
+                <label for="fname">Cổng thanh toán được chấp nhận</label>
                 <div class="icon-container">
                   <i class="fa fa-cc-visa" style="color:navy;"></i>
                   <i class="fa-brands fa-cc-amazon-pay"></i>
@@ -338,10 +338,10 @@ if (isset($_POST['checkout'])) {
                   <i class="fa fa-cc-paypal" style="color:#3b7bbf;"></i>
                 </div>
                 <div class="inputBox">
-                  <label for="method">Choose Payment Method :</label>
+                  <label for="method">Chọn phương thức thanh toán :</label>
                   <select name="method" id="method">
-                    <option value="cash on delivery">Cash on delivery</option>
-                    <option value="Debit card">Debit card</option>
+                    <option value="cash on delivery">Thanh toán khi giao hàng</option>
+                    <option value="Debit card">Thẻ ghi nợ</option>
                     <option value="Amazon Pay">Amazon Pay</option>
                     <option value="Paypal">Paypal</option>
                     <option value="Google Pay">Google Pay</option>
@@ -352,7 +352,7 @@ if (isset($_POST['checkout'])) {
 
           </div>
           <label>
-            <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+            <input type="checkbox" checked="checked" name="sameadr"> Địa chỉ giao hàng giống như địa chỉ thanh toán
           </label>
           <input type="submit" name="checkout" value="Continue to checkout" class="btn">
         </form>

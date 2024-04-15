@@ -14,7 +14,7 @@ if(!isset($user_id)){
 if(isset($_GET['remove'])){
     $remove_id=$_GET['remove'];
     mysqli_query($conn, "DELETE FROM `cart` WHERE id='$remove_id'") or die('query failed');
-    $message[]='Removed Successfully';
+    $message[]='Đã xóa thành công';
     header('location:cart.php');
 }
 if(isset($_POST['update'])){
@@ -94,7 +94,7 @@ if(isset($_POST['update'])){
     <div class="cart_form">
     <?php
     if(isset($message)){
-      foreach($message as $message){
+      foreach($messages as $message){
         echo '
         <div class="message" id="messages"><span>'.$message.'</span>
         </div>
@@ -142,13 +142,12 @@ if(isset($_POST['update'])){
                 $total += $sub_total;
                     }
                 } else {
-                    echo '<p class="empty">There is nothing in cart yet !!!!!!!!</p>';
+                    echo '<p class="empty">Chưa có gì trong giỏ hàng !!!!!!!!</p>';
                 }
                 ?>
                 <tr>
-                    <th style="text-align:center;" colspan="3">Tổng tiềnl</th>
-                    <th colspan="2">VND <?php echo $total; ?>/- </th>
-
+                    <th style="text-align:center;" colspan="3">Tổng tiền</th>
+                    <th colspan="2"><?php echo number_format($total, 0, ',', '.') ?>đ</th>
                 </tr>
                 
                 

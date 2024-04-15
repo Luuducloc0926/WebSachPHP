@@ -7,7 +7,7 @@ $user_id = $_SESSION['user_id'];
 
 if (isset($_POST['add_to_cart'])) {
     if(!isset($user_id)){
-        $message[]= 'Please Login to get your books';
+        $message[]= 'Vui lòng đăng nhập để nhận sách của bạn';
      }else{
     $book_name = $_POST['book_name'];
     $book_id = $_POST['book_id'];
@@ -18,10 +18,10 @@ if (isset($_POST['add_to_cart'])) {
     $select_book = $conn->query("SELECT * FROM cart WHERE name= '$book_name' AND user_id='$user_id' ") or die('query failed');
 
     if (mysqli_num_rows($select_book) > 0) {
-        $message[] = 'This Book is alredy in your cart';
+        $message[] = 'Cuốn sách này đã có trong giỏ hàng của bạn';
     } else {
         $conn->query("INSERT INTO cart (`book_id`,`user_id`,`name`, `price`, `image`, `quantity` ,`total`) VALUES('$book_id','$user_id','$book_name','$book_price','$book_image','$book_quantity', '$total_price')") or die('Add to cart Query failed');
-        $message[] = 'Book Added To Cart Successfully';
+        $message[] = 'Đã thêm sách vào giỏ hàng thành công';
     }
 }
 
@@ -75,7 +75,7 @@ if (isset($_POST['add_to_cart'])) {
     ?>
         <?php
     if(isset($message)){
-      foreach($message as $message){
+      foreach($messages as $message){
         echo '
         <div class="message" id= "messages"><span>'.$message.'</span>
         </div>
@@ -99,7 +99,7 @@ if (isset($_POST['add_to_cart'])) {
                             <div class="col_box">
                                 <h4>Tác giả: <?php echo $fetch_book['title']; ?></h4>
                                 <h1>Tên sách: <?php echo $fetch_book['name']; ?></h1>
-                                <h3>Giá : ₹ <?php echo $fetch_book['price']; ?>/-</h3>
+                                <h3>Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</h3>
                                 <label for="quantity">Số lượng:</label>
                                 <input type="number" name="quantity" value="1" min="1" max="10" id="quantity">
                                 <div class="buttons">
