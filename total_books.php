@@ -86,16 +86,25 @@ if(isset($_POST['update_product'])){
       <img src="./added_books/<?php echo $fetch_update['image']; ?>" alt="">
       <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Enter Book Name">
       <input type="text" name="update_title" value="<?php echo $fetch_update['title']; ?>" class="box" required placeholder="Enter Author Name">
-      <select name="update_category" value="<?php echo $fetch_update['category']; ?> required class="text_field">
-            <option value="Adventure">Adventure</option>
-            <option value="Magic">Magic</option>
-            <option value="knowledge">knowledge</option>
-         </select>
-      <input type="text" name="update_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="enter product description">
-      <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="enter product price">
+      <select name="update_category" class="text_field" required>
+         <?php
+            // Truy vấn cơ sở dữ liệu để lấy danh sách loại sách
+            $category_query = mysqli_query($conn, "SELECT * FROM `category`") or die('category query failed');
+            if(mysqli_num_rows($category_query) > 0){
+               while($category_row = mysqli_fetch_assoc($category_query)){
+                  $category_name = $category_row['Name'];
+                  // Kiểm tra nếu loại sách được chọn trùng với loại sách trong cơ sở dữ liệu thì đặt thuộc tính selected
+                  $selected = ($category_name == $fetch_update['category']) ? 'selected' : '';
+                  echo "<option value='$category_name' $selected>$category_name</option>";
+               }
+            }
+         ?>
+      </select>
+      <input type="text" name="update_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="Enter product description">
+      <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="Enter product price">
       <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
-      <input type="submit" value="update" name="update_product" class="delete_btn" >
-      <input type="reset" value="cancel" id="close-update" class="update_btn" >
+      <input type="submit" value="update" name="update_product" class="delete_btn">
+      <input type="reset" value="cancel" id="close-update" class="update_btn">
    </form>
    <?php
          }
@@ -104,8 +113,8 @@ if(isset($_POST['update_product'])){
          echo '<script>document.querySelector(".edit-product-form").style.display = "none";</script>';
       }
    ?>
-
 </section>
+
 
   <section class="show-products">
    <div class="box-container">
@@ -130,7 +139,6 @@ if(isset($_POST['update_product'])){
       }
       ?>
    </div>
-
 </section>
 
 <script src="./js/admin.js"></script>

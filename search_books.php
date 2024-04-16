@@ -20,7 +20,7 @@ if (isset($_POST['add_to_cart'])) {
        $message[] = 'This Book is alredy in your cart';
    } else {
    $conn->query("INSERT INTO cart (`user_id`,`book_id`,`name`, `price`, `image`,`quantity` ,`total`) VALUES('$user_id','$book_id','$book_name','$book_price','$book_image','$book_quantity', '$total_price')") or die('Add to cart Query failed');
-   $message[] = 'Book Added To Successfully';
+   $message[] = 'Sách được thêm vào thành công';
    header('location:index.php');
    }
 }
@@ -114,10 +114,10 @@ if (isset($_POST['add_to_cart'])) {
                      <a href="book_details.php?details=<?php echo $fetch_book['bid'];
                                                          echo '-name=', $fetch_book['name']; ?>"> <img style="height: 200px;width: 125px;margin: auto;" class="books_images" src="added_books/<?php echo $fetch_book['image']; ?>" alt=""></a>
                      <div style="text-align:left ;">
-                        <div class="name" style="font-size: 12px;">Aurthor: <?php echo $fetch_book['title']; ?></div>
-                        <div style="font-weight: 500; font-size:18px; " class="name">Name: <?php echo $fetch_book['name']; ?></div>
+                        <div class="name" style="font-size: 12px;">Tác giả: <?php echo $fetch_book['title']; ?></div>
+                        <div style="font-weight: 500; font-size:18px; " class="name">Tên sách: <?php echo $fetch_book['name']; ?></div>
                      </div>
-                     <div class="price">Price: ₹ <?php echo $fetch_book['price']; ?>/-</div>
+                     <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') . '₫'; ?></div>
                      <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
                      <form action="" method="POST">
                         <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">
@@ -131,7 +131,7 @@ if (isset($_POST['add_to_cart'])) {
          <?php
                }
             } else {
-               echo '<p class="empty">Could not find "'. $search_box.'"! </p>';
+               echo '<p class="empty">Không thể tìm thấy"'. $search_box.'"! </p>';
             }
          };
          ?>

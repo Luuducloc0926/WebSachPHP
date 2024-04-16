@@ -10,41 +10,39 @@ if(!isset($admin_id)){
 };
 
 if (isset($_POST['add_books'])) {
-  $bname = mysqli_real_escape_string($conn, $_POST['bname']);
-  $btitle = mysqli_real_escape_string($conn, $_POST['btitle']);
-  $category = mysqli_real_escape_string($conn, $_POST['Category']);
-  $price = $_POST['price'];
-  $desc = mysqli_real_escape_string($conn, ($_POST['bdesc']));
-  $img = $_FILES["image"]["name"];
-  $img_temp_name = $_FILES["image"]["tmp_name"];
-  $img_file = "./added_books/" . $img;
+   $bname = mysqli_real_escape_string($conn, $_POST['book_name']);
+   $btitle = mysqli_real_escape_string($conn, $_POST['book_title']);
+   $category = mysqli_real_escape_string($conn, $_POST['category_id']);
+   $price = $_POST['book_price'];
+   $desc = mysqli_real_escape_string($conn, $_POST['book_description']);
+   $img = $_FILES["book_image"]["name"];
+   $img_temp_name = $_FILES["book_image"]["tmp_name"];
+   $img_file = "./added_books/" . $img;
 
+   if (empty($bname)) {
+       $message[] = 'Vui lòng nhập tên sách';
+   } elseif (empty($btitle)) {
+       $message[] = 'Vui lòng nhập tựa đề';
+   } elseif (empty($price)) {
+       $message[] = 'Vui lòng nhập giá';
+   } elseif (empty($category)) {
+       $message[] = 'Vui lòng nhập phân loại sách';
+   } elseif (empty($desc)) {
+       $message[] = 'Vui lòng nhập mô tả sách';
+   } elseif (empty($img)) {
+       $message[] = 'Vui lòng chọn sách';
+   } else {
+       $add_book = mysqli_query($conn, "INSERT INTO book_info(`name`, `title`, `price`, `category_id`, `description`, `image`) VALUES('$bname','$btitle','$price','$category','$desc','$img')") or die('Query failed');
 
-  if (empty($bname)) {
-    $message[] = 'Vui lòng nhập tên sách';
-  } elseif (empty($btitle)) {
-    $message[] = 'Vui lòng nhập tựa đề';
-  } elseif (empty($price)) {
-    $message[] = 'Vui lòng nhập giá';
-  } elseif (empty($category)) {
-    $message[] = 'Vui lòng nhập phân loại sách';
-  } elseif (empty($desc)) {
-    $message[] = 'Vui lòng nhập mô tả sách';
-  } elseif (empty($img)) {
-    $message[] = 'Vui lòng chọn sách';
-  } else {
-
-    $add_book = mysqli_query($conn, "INSERT INTO book_info(`name`, `title`, `price`, `category`, `description`, `image`) VALUES('$bname','$btitle','$price','$category','$desc','$img')") or die('Query failed');
-
-    if ($add_book) {
-
-      move_uploaded_file($img_temp_name, $img_file);
-      $message[] = 'Thêm sách thành công';
-    } else {
-      $message = 'Thêm sách không thành công';
-    }
-  }
+       if ($add_book) {
+           move_uploaded_file($img_temp_name, $img_file);
+           $message[] = 'Thêm sách thành công';
+       } else {
+           $message[] = 'Thêm sách không thành công';
+       }
+   }
 }
+
 
 if(isset($_GET['delete'])){
   $delete_id = $_GET['delete'];
@@ -84,6 +82,18 @@ if(isset($_POST['update_product'])){
 }
 
 ?>
+<?php
+// Kết nối đến cơ sở dữ liệu
+include 'config.php';
+
+// Truy vấn cơ sở dữ liệu để lấy danh sách loại sách
+$category_query = mysqli_query($conn, "SELECT * FROM category");
+
+// Kiểm tra xem có bất kỳ lỗi nào xảy ra trong quá trình truy vấn hay không
+if (!$category_query) {
+    die('Query failed: ' . mysqli_error($conn));
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -112,26 +122,32 @@ if(isset($_POST['update_product'])){
   ?>
   
 <a class="update_btn" style="position: fixed ; z-index:100;" href="total_books.php">Xem tất cả sách</a>
-  <div class="container_box">
+<div class="container_box">
     <form action="" method="POST" enctype="multipart/form-data">
-      <h3>Add Books To <a href="index.php"><span>Triple & </span><span>Trouble</span></a></h3>
-      <input type="text" name="bname" placeholder="Nhập tên sách" class="text_field ">
-      <input type="text" name="btitle" placeholder="Nhập tên tác giả" class="text_field">
-      <input type="number" min="0" name="price" class="text_field" placeholder="Nhập giá sách">
-      <select name="Category" id="" required class="text_field">
-            <option value="Adventure">Adventure</option>
-            <option value="Magic">Magic</option>
-            <option value="knowledge">knowledge</option>
-         </select>
-      <textarea name="bdesc" placeholder="Mô tả" id="" class="text_field" cols="18" rows="5"></textarea>
-      <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="text_field">
-      <input type="submit" value="Thêm sách" name="add_books" class="btn text_field">
+        <h3>Add Books To <a href="index.php"><span>Triple & </span><span>Trouble</span></a></h3>
+        <input type="text" name="book_name" placeholder="Tên sách" required class="text_field">
+        <input type="text" name="book_title" placeholder="Tên tác giả" required class="text_field">
+        <select name="category_id" required class="text_field">
+            <?php
+            // Lặp qua kết quả của truy vấn và hiển thị từng loại sách dưới dạng tùy chọn trong menu dropdown
+            while ($row = mysqli_fetch_assoc($category_query)) {
+                // Lấy id của loại sách từ cơ sở dữ liệu
+                $category_id = $row['id'];
+                // Lấy tên loại sách từ cơ sở dữ liệu
+                $category_name = $row['Name'];
+                // Hiển thị tùy chọn trong menu dropdown với giá trị category_id là số nguyên
+                echo "<option value='$category_id'>$category_name</option>";
+            }
+            ?>
+        </select>
+        <input type="text" name="book_description" placeholder="Mô tả" required class="text_field">
+        <input type="number" name="book_price" placeholder="Giá sách" required class="text_field">
+        <input type="file" name="book_image" accept="image/jpg, image/jpeg, image/png" required class="text_field">
+        <input type="submit" name="add_books" value="Thêm sách" class="text_field">
     </form>
-  </div>
+</div>
 
-  <section class="edit-product-form">
-
-<?php
+  <?php
    if(isset($_GET['update'])){
       $update_id = $_GET['update'];
       $update_query = mysqli_query($conn, "SELECT * FROM `book_info` WHERE bid = '$update_id'") or die('query failed');
@@ -144,10 +160,19 @@ if(isset($_POST['update_product'])){
    <img src="./added_books/<?php echo $fetch_update['image']; ?>" alt="">
    <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Nhập tên sách">
    <input type="text" name="update_title" value="<?php echo $fetch_update['title']; ?>" class="box" required placeholder="Nhập tên tác giả">
-   <select name="update_category" value="<?php echo $fetch_update['category']; ?> required class="text_field">
-         <option value="Adventure">Adventure</option>
-         <option value="Magic">Magic</option>
-         <option value="knowledge">knowledge</option>
+   <select name="update_category" class="text_field" required>
+         <?php
+         // Truy vấn cơ sở dữ liệu để lấy danh sách loại sách
+         $category_query = mysqli_query($conn, "SELECT * FROM `category`") or die('category query failed');
+         if(mysqli_num_rows($category_query) > 0){
+            while($category_row = mysqli_fetch_assoc($category_query)){
+               $category_name = $category_row['Name'];
+               // Kiểm tra nếu loại sách được chọn trùng với loại sách trong cơ sở dữ liệu thì đặt thuộc tính selected
+               $selected = ($category_name == $fetch_update['category']) ? 'selected' : '';
+               echo "<option value='$category_name' $selected>$category_name</option>";
+            }
+         }
+         ?>
       </select>
    <input type="text" name="update_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="Mô tả">
    <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="Nhập giá sách">
@@ -163,7 +188,6 @@ if(isset($_POST['update_product'])){
    }
 ?>
 
-</section>
   <section class="show-products">
 
    <div class="box-container">
@@ -206,26 +230,36 @@ if(isset($_POST['update_product'])){
       <img src="./added_books/<?php echo $fetch_update['image']; ?>" alt="">
       <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Enter Book Name">
       <input type="text" name="update_title" value="<?php echo $fetch_update['title']; ?>" class="box" required placeholder="Enter Author Name">
-      <select name="update_category" value="<?php echo $fetch_update['category']; ?> required class="text_field">
-            <option value="Adventure">Adventure</option>
-            <option value="Magic">Magic</option>
-            <option value="knowledge">knowledge</option>
-         </select>
-      <input type="text" name="update_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="enter product description">
-      <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="enter product price">
+      <select name="update_category" class="text_field" required>
+         <?php
+         // Truy vấn cơ sở dữ liệu để lấy danh sách loại sách
+         $category_query = mysqli_query($conn, "SELECT * FROM `category`") or die('category query failed');
+         if(mysqli_num_rows($category_query) > 0){
+            while($category_row = mysqli_fetch_assoc($category_query)){
+               $category_name = $category_row['Name'];
+               // Kiểm tra nếu loại sách được chọn trùng với loại sách trong cơ sở dữ liệu thì đặt thuộc tính selected
+               $selected = ($category_name == $fetch_update['category']) ? 'selected' : '';
+               echo "<option value='$category_name' $selected>$category_name</option>";
+            }
+         }
+         ?>
+      </select>
+      <input type="text" name="update_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="Enter product description">
+      <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="Enter product price">
       <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
-      <input type="submit" value="update" name="update_product" class="delete_btn" >
-      <input type="reset" value="cancel" id="close-update" class="update_btn" >
+      <input type="submit" value="update" name="update_product" class="delete_btn">
+      <input type="reset" value="cancel" id="close-update" class="update_btn">
    </form>
    <?php
+            }
          }
-      }
       }else{
          echo '<script>document.querySelector(".edit-product-form").style.display = "none";</script>';
       }
    ?>
 
 </section>
+
 
 <script src="./js/admin.js"></script>
 <script>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2024 at 04:14 PM
+-- Generation Time: Apr 15, 2024 at 04:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -27,25 +27,39 @@ SET time_zone = "+00:00";
 -- Table structure for table `book_info`
 --
 
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `category` (`id`, `Name`) VALUES
+(1, 'Sách văn học'),
+(2, 'Sách lịch sử'),
+(3, 'Sách trinh thám');
+
 CREATE TABLE `book_info` (
-  `bid` int(100) NOT NULL,
+  `bid` int(100) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `title` varchar(200) NOT NULL,
   `price` decimal(10,0) NOT NULL,
-  `category` varchar(200) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `image` varchar(100) NOT NULL,
-  `date` datetime NOT NULL DEFAULT current_timestamp()
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`bid`), -- Define `bid` as the primary key
+  FOREIGN KEY (`category_id`) REFERENCES `category`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 --
 -- Dumping data for table `book_info`
 --
 
-INSERT INTO `book_info` (`bid`, `name`, `title`, `price`, `category`, `description`, `image`, `date`) VALUES
-(97, '7 Bước tới mùa hè', 'Nguyễn Nhật Ánh', 99000, 'Magic', '“Bảy bước tới mùa hè” là câu chuyện về một mùa hè ngọt ngào, những trò chơi nghịch ngợm và bâng khuâng tình cảm tuổi mới lớn. Chỉ vậy thôi nhưng chứng tỏ tác giả đúng là nhà kể chuyện hóm hỉnh, khiến đọc cuốn hút từ tựa đến trang cuối cùng, có lẽ chính vì giọng văn giản dị và trong trẻo của Nguyễn Nhật Ánh, và kết thúc thì có hậu đầy thuyết phục. Câu chuyện cho tuổi học trò, đọc xong là thấy ngập lên khao khát quay về một thời thơ bé, với tình thầy trò, bè bạn, tình xóm giềng, họ hàng, qua cách nhìn đời nhẹ nhõm, rộng lượng.', '7buoctoimuahe_nguyennhatanh.jpg', '2024-04-14 21:03:09'),
-(98, 'Chí phèo ', 'Nam Cao', 89000, 'knowledge', 'Chí Phèo – tập truyện ngắn tái hiện bức tranh chân thực nông thôn Việt Nam trước 1945, nghèo đói, xơ xác trên con đường phá sản, bần cùng, hết sức thê thảm, người nông dân bị đẩy vào con đường tha hóa, lưu manh hóa. Nam Cao không hề bôi nhọ người nông dân, trái lại nhà văn đi sâu vào nội tâm nhân vật để khẳng định nhân phẩm và bản chất lương thiện ngay cả khi bị vùi dập, cướp mất cà nhân hình, nhân tính của người nông dân, đồng thời kết án đanh thép cái xã hội tàn bạo đó trước 1945.', 'Chipheo_NamCao.png', '2024-04-14 21:04:31'),
-(99, 'Số đỏ', 'Vũ Trọng Phụng ', 89000, 'Adventure', 'Số đỏ là một tiểu thuyết văn học của nhà văn Vũ Trọng Phụng, đăng ở Hà Nội báo từ số 40 ngày 7 tháng 10/1936 và được in thành sách lần đầu vào năm 1938.', 'sodo.jpg', '2024-04-14 21:09:35');
+INSERT INTO `book_info` (`bid`, `name`, `title`, `price`, `category_id`, `description`, `image`, `date`) VALUES
+(1, '7 Bước tới mùa hè', 'Nguyễn Nhật Ánh', 99000, 1, '“Bảy bước tới mùa hè” là câu chuyện về một mùa hè ngọt ngào, những trò chơi nghịch ngợm và bâng khuâng tình cảm tuổi mới lớn. Chỉ vậy thôi nhưng chứng tỏ tác giả đúng là nhà kể chuyện hóm hỉnh, khiến đọc cuốn hút từ tựa đến trang cuối cùng, có lẽ chính vì giọng văn giản dị và trong trẻo của Nguyễn Nhật Ánh, và kết thúc thì có hậu đầy thuyết phục. Câu chuyện cho tuổi học trò, đọc xong là thấy ngập lên khao khát quay về một thời thơ bé, với tình thầy trò, bè bạn, tình xóm giềng, họ hàng, qua cách nhìn đời nhẹ nhõm, rộng lượng.', '7buoctoimuahe_nguyennhatanh.jpg', '2024-04-14 21:03:09'),
+(2, 'Ai từng là con nít', 'Vô danh', 78000, 2, 'sách trẻ em', 'aitunglaconnit.jpg', '2024-04-15 21:11:23');
 
 -- --------------------------------------------------------
 
@@ -65,12 +79,13 @@ CREATE TABLE `cart` (
   `date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `cart`
+-- Table structure for table `category`
 --
 
-INSERT INTO `cart` (`id`, `book_id`, `user_id`, `name`, `price`, `image`, `quantity`, `total`, `date`) VALUES
-(163, 97, 51, '7 Bước tới mùa hè', 99000, '7buoctoimuahe_nguyennhatanh.jpg', 1, 99.00, '2024-04-14 21:05:18');
+
 
 -- --------------------------------------------------------
 
@@ -92,6 +107,14 @@ CREATE TABLE `confirm_order` (
   `date` varchar(20) NOT NULL,
   `total_price` double(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `confirm_order`
+--
+
+INSERT INTO `confirm_order` (`order_id`, `user_id`, `name`, `email`, `number`, `address`, `payment_method`, `total_books`, `order_date`, `payment_status`, `date`, `total_price`) VALUES
+(1, 1, 'nguyen', 'cdf@fdfs', 165, 'dsfd, df', 'cash on delivery', '', '15-Apr-2024', 'pending', '', 0.00),
+(2, 1, 'Tan Nguyen', 'Nguyen@gmail.com', 44564658, 'hhsdifh, njsdkfjh', 'cash on delivery', ' Số đỏ chót #99,(1) ', '15-Apr-2024', 'pending', '', 89000.00);
 
 -- --------------------------------------------------------
 
@@ -135,8 +158,12 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `address`, `city`, `state`, `country`, `pincode`, `book`, `unit_price`, `quantity`, `sub_total`, `payment_status`) VALUES
-(1, 1, '123 Example St', 'Example City', 'Example State', 'Example Country', 123456, 'Example Book', 100.00, 1, 100.00, 'pending');
-
+(1, 1, '123 Example St', 'Example City', 'Example State', 'Example Country', 123456, 'Example Book', 100.00, 1, 100.00, 'pending'),
+(33, 1, 'acsdv', 'csdvbd', 'fwefwe', 'vietnam', 23, 'Chí phèo ', 89000.00, 1, 89000.00, 'pending'),
+(35, 1, 'dsfd', 'df', '', '', 0, 'Số đỏ chót', 89000.00, 1, 89000.00, 'pending'),
+(35, 1, 'dsfd', 'df', '', '', 0, 'Chí phèo ', 89000.00, 1, 89000.00, 'pending'),
+(35, 1, 'dsfd', 'df', '', '', 0, 'Đất rừng phương nam', 49000.00, 1, 49000.00, 'pending'),
+(37, 1, 'hhsdifh', 'njsdkfjh', '', '', 0, 'Số đỏ chót', 89000.00, 1, 89000.00, 'pending');
 
 -- --------------------------------------------------------
 
@@ -178,6 +205,12 @@ ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `confirm_order`
 --
 ALTER TABLE `confirm_order`
@@ -203,19 +236,25 @@ ALTER TABLE `users_info`
 -- AUTO_INCREMENT for table `book_info`
 --
 ALTER TABLE `book_info`
-  MODIFY `bid` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `bid` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `confirm_order`
 --
 ALTER TABLE `confirm_order`
-  MODIFY `order_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `order_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `msg`
@@ -229,6 +268,15 @@ ALTER TABLE `msg`
 ALTER TABLE `users_info`
   MODIFY `Id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 COMMIT;
+
+ALTER TABLE `book_info`
+ADD COLUMN `category_id` INT,
+ADD CONSTRAINT `FK_category`
+FOREIGN KEY (`category_id`)
+REFERENCES `category` (`id`)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

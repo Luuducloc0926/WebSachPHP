@@ -19,6 +19,8 @@ $orders = $conn->query("SELECT * FROM confirm_order ") or die('query failed');
 $orders_count = mysqli_num_rows( $orders );
 $msg_no = $conn->query("SELECT * FROM msg ") or die('query failed');
 $msgcount = mysqli_num_rows( $msg_no );
+$category_no = $conn->query("SELECT * from category ") or die ('Kết nối thất bại');
+$categorycount = mysqli_num_rows($category_no);
 
 ?>
 
@@ -108,6 +110,20 @@ $msgcount = mysqli_num_rows( $msg_no );
           </div>
         </div>
       </div>
+
+      <div class="card" style="width: 15rem">
+        <img class="card-img-top" src="./images/nu. books.png" alt="Card image cap" />
+        <div class="card-body">
+          <h5 class="card-title">Số lượng loại sách hiện có</h5>
+          <p class="card-text">
+          <?php echo $categorycount; ?>
+          </p>
+          <div class="buttons" style="display: flex; flex-direction: column;">
+             <a href="category.php" class="btn btn-primary">Thêm loại sách</a>
+          </div>
+        </div>
+      </div>
+
       <div class="card" style="width: 15rem">
         <img class="card-img-top" src="./images/whatpm.png" alt="Card image cap" />
         <div class="card-body">
