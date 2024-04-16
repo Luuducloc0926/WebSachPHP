@@ -53,33 +53,39 @@ if(isset($_GET['delete'])){
 
 if(isset($_POST['update_product'])){
 
-  $update_p_id = $_POST['update_p_id'];
-  $update_name = $_POST['update_name'];
-  $update_title = $_POST['update_title'];
-  $update_description = $_POST['update_description'];
-  $update_price = $_POST['update_price'];
-
-  mysqli_query($conn, "UPDATE `book_info` SET name = '$update_name', title='$update_title', description ='$update_description', price = '$update_price',category='$update_category' WHERE bid = '$update_p_id'") or die('query failed');
-
-  $update_image = $_FILES['update_image']['name'];
-  $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
-  $update_image_size = $_FILES['update_image']['size'];
-  $update_folder = './added_books/'.$update_image;
-  $update_old_image = $_POST['update_old_image'];
-
-  if(!empty($update_image)){
-     if($update_image_size > 2000000){
-        $message[] = 'kích thước tệp hình ảnh quá lớn';
-     }else{
-        mysqli_query($conn, "UPDATE `book_info` SET image = '$update_image' WHERE bid = '$update_p_id'") or die('query failed');
-        move_uploaded_file($update_image_tmp_name, $update_folder);
-        unlink('uploaded_img/'.$update_old_image);
-     }
-  }
-
-  header('location:./add_books.php');
-
-}
+   $update_p_id = $_POST['update_p_id'];
+   $update_name = $_POST['update_name'];
+   $update_title = $_POST['update_title'];
+   $update_description = $_POST['update_description'];
+   $update_price = $_POST['update_price'];
+   $update_category_id = $_POST['update_category']; // Thay đổi tên biến này
+ 
+   mysqli_query($conn, "UPDATE `book_info` SET name = '$update_name', title='$update_title', description ='$update_description', price = '$update_price', category_id='$update_category_id' WHERE bid = '$update_p_id'") or die('query failed'); // Sửa cột category thành category_id
+ 
+  
+ 
+   $update_image = $_FILES['update_image']['name'];
+   $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
+   $update_image_size = $_FILES['update_image']['size'];
+   $update_folder = './added_books/'.$update_image;
+   $update_old_image = $_POST['update_old_image'];
+ 
+   if(!empty($update_image)){
+      if($update_image_size > 2000000){
+         $message[] = 'kích thước tệp hình ảnh quá lớn';
+      }else{
+         mysqli_query($conn, "UPDATE `book_info` SET image = '$update_image' WHERE bid = '$update_p_id'") or die('query failed');
+         move_uploaded_file($update_image_tmp_name, $update_folder);
+         unlink('uploaded_img/'.$update_old_image);
+      }
+   }
+   header('location:total_books.php');
+   if($update_query){
+       $message[] = 'Sửa sách thành công';
+    } else {
+       $message[] = 'Sửa sách không thành công';
+    }
+ }
 
 ?>
 <?php
@@ -147,6 +153,9 @@ if (!$category_query) {
     </form>
 </div>
 
+
+
+ <!-- update sản phẩm -->
   <?php
    if(isset($_GET['update'])){
       $update_id = $_GET['update'];
@@ -160,7 +169,7 @@ if (!$category_query) {
    <img src="./added_books/<?php echo $fetch_update['image']; ?>" alt="">
    <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Nhập tên sách">
    <input type="text" name="update_title" value="<?php echo $fetch_update['title']; ?>" class="box" required placeholder="Nhập tên tác giả">
-   <select name="update_category" class="text_field" required>
+   <select name="update_category" required class="text_field" >
          <?php
          // Truy vấn cơ sở dữ liệu để lấy danh sách loại sách
          $category_query = mysqli_query($conn, "SELECT * FROM `category`") or die('category query failed');
@@ -202,8 +211,8 @@ if (!$category_query) {
          <div class="name">Tác giả: <?php echo $fetch_book['title']; ?></div>
          <div class="name">Tên sách: <?php echo $fetch_book['name']; ?></div>
          <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
-         <a href="add_books.php?update=<?php echo $fetch_book['bid']; ?>" class="update_btn">update</a>
-         <a href="add_books.php?delete=<?php echo $fetch_book['bid']; ?>" class="delete_btn" onclick="return confirm('delete this product?');">delete</a>
+         <a href="total_books.php?update=<?php echo $fetch_book['bid']; ?>" class="update_btn">Cập nhật</a>
+         <a href="add_books.php?delete=<?php echo $fetch_book['bid']; ?>" class="delete_btn" onclick="return confirm('xóa sản phẩm?');">Xóa</a>
       </div>
       <?php
          }
@@ -216,7 +225,6 @@ if (!$category_query) {
 </section>
 
 <section class="edit-product-form">
-
    <?php
       if(isset($_GET['update'])){
          $update_id = $_GET['update'];
@@ -224,6 +232,7 @@ if (!$category_query) {
          if(mysqli_num_rows($update_query) > 0){
             while($fetch_update = mysqli_fetch_assoc($update_query)){
    ?>
+   <div class="container_box">
    <form action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['bid']; ?>">
       <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['image']; ?>">
@@ -236,10 +245,11 @@ if (!$category_query) {
          $category_query = mysqli_query($conn, "SELECT * FROM `category`") or die('category query failed');
          if(mysqli_num_rows($category_query) > 0){
             while($category_row = mysqli_fetch_assoc($category_query)){
+               $category_id = $category_row['id'];
                $category_name = $category_row['Name'];
-               // Kiểm tra nếu loại sách được chọn trùng với loại sách trong cơ sở dữ liệu thì đặt thuộc tính selected
-               $selected = ($category_name == $fetch_update['category']) ? 'selected' : '';
-               echo "<option value='$category_name' $selected>$category_name</option>";
+               // Kiểm tra nếu category_id được chọn trùng với category_id trong cơ sở dữ liệu thì đặt thuộc tính selected
+               $selected = ($category_id == $fetch_update['category_id']) ? 'selected' : '';
+               echo "<option value='$category_id' $selected>$category_name</option>";
             }
          }
          ?>
@@ -247,8 +257,9 @@ if (!$category_query) {
       <input type="text" name="update_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="Enter product description">
       <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="Enter product price">
       <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
-      <input type="submit" value="update" name="update_product" class="delete_btn">
-      <input type="reset" value="cancel" id="close-update" class="update_btn">
+      <input type="submit" value="update" name="update_product" class="update_btn">
+      <input type="reset" value="cancel" id="close-update" class="delete_btn">
+      </d>
    </form>
    <?php
             }
@@ -257,7 +268,6 @@ if (!$category_query) {
          echo '<script>document.querySelector(".edit-product-form").style.display = "none";</script>';
       }
    ?>
-
 </section>
 
 

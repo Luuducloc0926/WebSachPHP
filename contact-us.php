@@ -18,7 +18,7 @@
       $phone = mysqli_real_escape_string($conn, $_POST['phone']);
 
           mysqli_query($conn, "INSERT INTO msg (`user_id`,`name`,`email`, `number`, `msg`) VALUES('$user_id','$name','$email','$phone','$msg')") or die('Mesage send Query failed');
-          $message[]='Message Send Successfully';
+          $message[]='Tin nhắn gửi thành công';
     }
 ?>
 
