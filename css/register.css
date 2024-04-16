@@ -155,7 +155,6 @@ html {
   color: black;
   text-transform: capitalize;
 }
-
 .show-products .box-container .box .price {
   margin: 15px;
   font-size: 20px;
@@ -217,6 +216,16 @@ html {
   font-size: 18px;
   color: black;
   width: 89%;
+}
+.edit-product form .text_field,
+.edit-product-form form .text_field {
+  width: 89%;
+  border-radius: 8px;
+  margin: 5px 0;
+  padding: 18px 50px;
+  font-size: 18px;
+  color: black;
+  border: 2px solid rgb(0, 181, 226);
 }
 .edit-product form .text_field,
 .edit-product-form form .text_field {
