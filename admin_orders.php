@@ -138,7 +138,7 @@ if (isset($_GET['delete'])) {
    <?php include 'admin_header.php'; ?>
    <?php
    if (isset($message)) {
-      foreach ($messages as $message) {
+      foreach ($message as $message) {
          echo '
         <div class="message" id= "messages"><span>' . $message . '</span>
         </div>
@@ -166,7 +166,7 @@ if (isset($_GET['delete'])) {
                   <p> Địa chỉ : <span><?php echo $fetch_book['address']; ?></span> </p>
                   <p> Phương thức thanh toán: <span><?php echo $fetch_book['payment_method']; ?></span> </p>
                   <p> Đơn đặt hàng: <span><?php echo $fetch_book['total_books']; ?></span> </p>
-                  <p> Tổng giá: <span>₹ <?php echo $fetch_book['total_price']; ?>/-</span> </p>
+                  <p> Tổng giá : <span><?php echo number_format($fetch_book['total_price'], 0, ',', '.') . '₫'; ?></span> </p>
                   <form action="" method="post">
                      <input type="hidden" name="order_id" value="<?php echo $fetch_book['order_id']; ?>">
                      Tình trạng thanh toán:<select name="update_payment">

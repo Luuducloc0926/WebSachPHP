@@ -28,10 +28,10 @@ if (isset($_POST['add_to_cart'])) {
             header('location:index.php');
         }
     }
+    $select_categories = mysqli_query($conn, "SELECT * FROM `category`") or die('query failed');
 }
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,7 +82,7 @@ if (isset($_POST['add_to_cart'])) {
     <?php include 'index_header.php' ?>
     <?php
     if (isset($message)) {
-        foreach ($messages as $message) {
+        foreach ($message as $message) {
             echo '
         <div class="message" id= "messages"><span>' . $message . '</span>
         </div>
@@ -90,7 +90,6 @@ if (isset($_POST['add_to_cart'])) {
         }
     }
     ?>
-
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -123,189 +122,52 @@ if (isset($_POST['add_to_cart'])) {
         </a>
     </div>
 
-    <section id="New">
-
-        <div class="container px-5 mx-auto">
-            <h2 class="m-8 font-extrabold text-4xl text-center border-t-2 " style="color: rgb(0, 167, 245);">
-                Sách Mới
-            </h2>
-        </div>
-    </section>
-    <section class="show-products">
-        <div class="box-container">
-
-            <?php
-            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` ORDER BY date DESC LIMIT 8") or die('query failed');
+    <?php
+// Truy vấn cơ sở dữ liệu để lấy danh sách loại sách
+    $category_query = mysqli_query($conn, "SELECT * FROM `category`") or die('category query failed');
+    if(mysqli_num_rows($category_query) > 0){
+        while($category_row = mysqli_fetch_assoc($category_query)){
+            $category_id = $category_row['id'];
+            $category_name = $category_row['Name'];
+            // Hiển thị tên của loại sách
+            echo "<section id='$category_name'>
+                    <div class='container px-5 mx-auto'>
+                        <h2 class='text-gray-400 m-8 font-extrabold text-4xl text-center border-t-2 text-red-800' style='color: rgb(0, 167, 245);'>$category_name</h2>
+                    </div>
+                </section>";
+            // Truy vấn cơ sở dữ liệu để lấy sản phẩm của loại sách
+            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` WHERE category_id='$category_id'") or die('Kết nối thất bại');
+            echo "<section class='show-products'>
+                    <div class='box-container'>";
             if (mysqli_num_rows($select_book) > 0) {
                 while ($fetch_book = mysqli_fetch_assoc($select_book)) {
-            ?>
-
-                    <div class="box" style="width: 255px; height:355px;">
-                        <a href="book_details.php?details=<?php echo $fetch_book['bid'];
-                                                            echo '-name=', $fetch_book['name']; ?>"> <img style="height: 200px;width: 125px;margin: auto;" class="books_images" src="added_books/<?php echo $fetch_book['image']; ?>" alt=""></a>
-                        <div style="text-align:left ;">
-
-                            <div style="font-weight: 500; font-size:18px; text-align: center; " class="name"> <?php echo $fetch_book['name']; ?></div>
-                        </div>
-                        <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
-                        <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
-                        <form action="" method="POST">
-                            <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_id" value="<?php echo $fetch_book['bid'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_image" value="<?php echo $fetch_book['image'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_price" value="<?php echo $fetch_book['price'] ?>">
-                            <button onclick="myFunction()" name="add_to_cart"><img src="./images/cart2.png" alt="Add to cart">
-                                <a href="book_details.php?details=<?php echo $fetch_book['bid'];
-                                                                    echo '-name=', $fetch_book['name']; ?>" class="update_btn">Chi tiết</a>
-                        </form>
-                        <!-- <button name="add_to_cart" ><img src="./images/cart2.png" alt="Add to cart"></button> -->
-                        <!-- <input type="submit" name="add_cart" value="cart"> -->
-                    </div>
-            <?php
+                    echo "<div class='box' style='width: 255px;height: 355px;'>
+                            <a href='book_details.php?details={$fetch_book['bid']}-name={$fetch_book['name']}'> 
+                                <img style='height: 200px;width: 125px;margin: auto;' class='books_images' src='added_books/{$fetch_book['image']}' alt=''>
+                            </a>
+                            <div style='text-align:left ;'>
+                                <div style='font-weight: 500; font-size:18px; text-align: center;' class='name'>{$fetch_book['name']}</div>
+                            </div>
+                            <div class='price'>Giá: ".number_format($fetch_book['price'], 0, ',', '.')."đ</div>
+                            <form action='' method='POST'>
+                                <input class='hidden_input' type='hidden' name='book_name' value='{$fetch_book['name']}'>
+                                <input class='hidden_input' type='hidden' name='book_image' value='{$fetch_book['image']}'>
+                                <input class='hidden_input' type='hidden' name='book_price' value='{$fetch_book['price']}'>
+                                <button name='add_to_cart'><img src='./images/cart2.png' alt='Add to cart'>
+                                    <a href='book_details.php?details={$fetch_book['bid']}-name={$fetch_book['name']}' class='update_btn'>Chi tiết</a>
+                                </button>
+                            </form>
+                        </div>";
                 }
             } else {
-                echo '<p class="empty">no products added yet!</p>';
+                echo "<p class='empty'>Chưa có sản phẩm được thêm!</p>";
             }
-            ?>
-        </div>
-    </section>
-    <section id="Adventure">
-        </div>
+            echo "</div>
+                </section>";
+        }
+    }
+?>
 
-        <div class="container px-5 mx-auto">
-            <h2 class="text-gray-400 m-8 font-extrabold text-4xl text-center border-t-2 text-red-800" style="color: rgb(0, 167, 245);" >
-                Văn học
-            </h2>
-        </div>
-    </section>
-    <section class="show-products">
-        <div class="box-container">
-
-            <?php
-            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` where category='Adventure'") or die('query failed');
-            if (mysqli_num_rows($select_book) > 0) {
-                while ($fetch_book = mysqli_fetch_assoc($select_book)) {
-            ?>
-
-                    <div class="box" style="width: 255px;height: 355px;">
-                        <a href="book_details.php?details=<?php echo $fetch_book['bid'];
-                                                            echo '-name=', $fetch_book['name']; ?>"> <img style="height: 200px;width: 125px;margin: auto;" class="books_images" src="added_books/<?php echo $fetch_book['image']; ?>" alt=""></a>
-                        <div style="text-align:left ;">
-
-                            <div style="font-weight: 500; font-size:18px; text-align: center; " class="name"> <?php echo $fetch_book['name']; ?></div>
-                        </div>
-                        <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
-                        <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
-                        <form action="" method="POST">
-                            <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_image" value="<?php echo $fetch_book['image'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_price" value="<?php echo $fetch_book['price'] ?>">
-                            <button name="add_to_cart"><img src="./images/cart2.png" alt="Add to cart">
-                                <a href="book_details.php?details=<?php echo $fetch_book['bid'];
-                                                                    echo '-name=', $fetch_book['name']; ?>" class="update_btn">Chi tiết</a>
-                        </form>
-                        <!-- <button name="add_to_cart" ><img src="./images/cart2.png" alt="Add to cart"></button> -->
-                        <!-- <input type="submit" name="add_cart" value="cart"> -->
-                    </div>
-            <?php
-                }
-            } else {
-                echo '<p class="empty">chưa có sản phẩm được thêm!</p>';
-            }
-            ?>
-        </div>
-    </section>
-    <hr style="color: black; width:5px;">
-    <section id="Magical">
-
-        <div class="container px-5 mx-auto">
-            <h2 class="text-gray-400 m-8 font-extrabold text-4xl text-center border-t-2 text-red-800"style="color: rgb(0, 167, 245);">
-                Magical
-            </h2>
-        </div>
-    </section>
-    <section class="show-products">
-        <div class="box-container">
-
-            <?php
-            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` where category='Magic'") or die('query failed');
-            if (mysqli_num_rows($select_book) > 0) {
-                while ($fetch_book = mysqli_fetch_assoc($select_book)) {
-            ?>
-
-                    <div class="box" style="width: 255px;height: 355px;">
-                        <a href="book_details.php?details=<?php echo $fetch_book['bid'];
-                                                            echo '-name=', $fetch_book['name']; ?>"> <img style="height: 200px;width: 125px;margin: auto;" class="books_images" src="added_books/<?php echo $fetch_book['image']; ?>" alt=""></a>
-                        <div style="text-align:left ;">
-
-                            <div style="font-weight: 500; font-size:18px; text-align: center;" class="name"> <?php echo $fetch_book['name']; ?></div>
-                        </div>
-                        <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
-                        <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
-                        <form action="" method="POST">
-                            <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_image" value="<?php echo $fetch_book['image'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_price" value="<?php echo $fetch_book['price'] ?>">
-                            <button name="add_to_cart"><img src="./images/cart2.png" alt="Add to cart">
-                                <a href="book_details.php?details=<?php echo $fetch_book['bid'];
-                                                                    echo '-name=', $fetch_book['name']; ?>" class="update_btn">Chi tiết</a>
-                        </form>
-                        <!-- <button name="add_to_cart" ><img src="./images/cart2.png" alt="Add to cart"></button> -->
-                        <!-- <input type="submit" name="add_cart" value="cart"> -->
-                    </div>
-            <?php
-                }
-            } else {
-                echo '<p class="empty">Chưa có sản phẩm được thêm!</p>';
-            }
-            ?>
-        </div>
-    </section>
-    <section id="Knowledge">
-
-        <div class="container px-5 mx-auto">
-            <h2 class="text-gray-400 m-8 font-extrabold text-4xl text-center border-t-2 text-red-800" style="color: rgb(0, 167, 245);">
-                Knowledge
-            </h2>
-        </div>
-    </section>
-    <section class="show-products">
-        <div class="box-container">
-
-            <?php
-            $select_book = mysqli_query($conn, "SELECT * FROM `book_info` Where category='knowledge'") or die('query failed');
-            if (mysqli_num_rows($select_book) > 0) {
-                while ($fetch_book = mysqli_fetch_assoc($select_book)) {
-            ?>
-
-                    <div class="box" style="width: 255px;height: 355px;">
-                        <a href="book_details.php?details=<?php echo $fetch_book['bid'];
-                                                            echo '-name=', $fetch_book['name']; ?>"> <img style="height: 200px;width: 125px;margin: auto;" class="books_images" src="added_books/<?php echo $fetch_book['image']; ?>" alt=""></a>
-                        <div style="text-align:left ;">
-
-                            <div style="font-weight: 500; font-size:18px; text-align: center;" class="name"> <?php echo $fetch_book['name']; ?></div>
-                        </div>
-                        <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
-                        <!-- <button name="add_cart"><img src="./images/cart2.png" alt=""></button> -->
-                        <form action="" method="POST">
-                            <input class="hidden_input" type="hidden" name="book_name" value="<?php echo $fetch_book['name'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_image" value="<?php echo $fetch_book['image'] ?>">
-                            <input class="hidden_input" type="hidden" name="book_price" value="<?php echo $fetch_book['price'] ?>">
-                            <button name="add_to_cart"><img src="./images/cart2.png" alt="Add to cart">
-                                <a href="book_details.php?details=<?php echo $fetch_book['bid'];
-                                                                    echo '-name=', $fetch_book['name']; ?>" class="update_btn">Chi tiết</a>
-                        </form>
-                        <!-- <button name="add_to_cart" ><img src="./images/cart2.png" alt="Add to cart"></button> -->
-                        <!-- <input type="submit" name="add_cart" value="cart"> -->
-                    </div>
-            <?php
-                }
-            } else {
-                echo '<p class="empty">Chưa có sản phẩm được thêm!</p>';
-            }
-            ?>
-        </div>
-    </section>
     <?php include 'index_footer.php'; ?>
 
     <script>

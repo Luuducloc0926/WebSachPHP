@@ -88,15 +88,22 @@ font-weight: 600;
     <div class="nav">
         <a href="index.php">Trang chủ</a>
         <div class="dropdown">
-            <button class="dropbtn">Phân loại </button>
-            <div class="dropdown-content">
-            <a href="http://localhost/bookflix/index.php#New">New Arrived</a>
-                <a href="http://localhost/bookflix/index.php#Adventure">Adventure</a>
-                <a href="http://localhost/bookflix/index.php#Magical">Magic</a>
-                <a href="http://localhost/bookflix/index.php#Knowledge">Knowledge</a>
+    <button class="dropbtn">Loại sách</button>
+    <div class="dropdown-content">
+        <?php
+        // Truy vấn cơ sở dữ liệu để lấy danh sách loại sách
+        $category_query = mysqli_query($conn, "SELECT * FROM `category`") or die('category query failed');
+        if(mysqli_num_rows($category_query) > 0){
+            while($category_row = mysqli_fetch_assoc($category_query)){
+                $category_name = $category_row['Name'];
+                // Tạo mỗi loại sách vào thẻ <a>
+                echo "<a href='#'>$category_name</a>";
+            }
+        }
+        ?>
+    </div>
+</div>
 
-            </div>
-        </div>
         <a href="contact-us.php">Liên hệ chúng tôi</a>
         <a href="cart.php">Giỏ hàng</a>
         <a href="orders.php">Đặt hàng</a>
