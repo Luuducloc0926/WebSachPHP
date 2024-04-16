@@ -105,7 +105,7 @@ if (isset($_POST['add_to_cart'])) {
             $search_box = $_POST['search_box'];
 
             $search_box = filter_var($search_box, FILTER_SANITIZE_STRING);
-            $select_products = mysqli_query($conn, "SELECT * FROM `book_info` WHERE name LIKE '%{$search_box}%' OR title LIKE '%{$search_box}%' OR category LIKE '%{$search_box}%'");
+            $select_products = mysqli_query($conn, "SELECT * FROM `book_info` WHERE name LIKE '%{$search_box}%' OR title LIKE '%{$search_box}%' OR category_id LIKE '%{$search_box}%'");
             if (mysqli_num_rows($select_products) > 0) {
                while ($fetch_book = mysqli_fetch_assoc($select_products)) {
          ?>

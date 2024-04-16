@@ -55,7 +55,7 @@ if(isset($_POST['update_product'])){
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/register.css">
-  <title>Tổng số sách</title>
+  <title>Sửa sách</title>
 </head>
 
 <body>
@@ -82,13 +82,13 @@ if(isset($_POST['update_product'])){
          if(mysqli_num_rows($update_query) > 0){
             while($fetch_update = mysqli_fetch_assoc($update_query)){
    ?>
-
+   <div class="container_box">
    <form action="" method="post" enctype="multipart/form-data">
       <input type="hidden" name="update_p_id" value="<?php echo $fetch_update['bid']; ?>">
       <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['image']; ?>">
       <img src="./added_books/<?php echo $fetch_update['image']; ?>" alt="">
-      <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Nhập tên sách">
-      <input type="text" name="update_title" value="<?php echo $fetch_update['title']; ?>" class="box" required placeholder="Nhập tên tác giả">
+      <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Enter Book Name">
+      <input type="text" name="update_title" value="<?php echo $fetch_update['title']; ?>" class="box" required placeholder="Enter Author Name">
       <select name="update_category" class="text_field" required>
          <?php
          // Truy vấn cơ sở dữ liệu để lấy danh sách loại sách
@@ -110,6 +110,7 @@ if(isset($_POST['update_product'])){
       <input type="submit" value="update" name="update_product" class="update_btn">
       <input type="reset" value="cancel" id="close-update" class="delete_btn">
    </form>
+      </d>
    <?php
             }
          }
@@ -133,7 +134,7 @@ if(isset($_POST['update_product'])){
          <div class="name">Tên sách: <?php echo $fetch_book['name']; ?></div>
          <div class="name">Tác giả: <?php echo $fetch_book['title']; ?></div>
          <div class="price">Giá: <?php echo number_format($fetch_book['price'], 0, ',', '.') ?>đ</div>
-         <a href="total_books.php?update=<?php echo $fetch_book['bid']; ?>" class="update_btn">Cập nhật</a>
+         <a href="update_book.php?update=<?php echo $fetch_book['bid']; ?>" class="update_btn">Cập nhật</a>
          <a href="total_books.php?delete=<?php echo $fetch_book['bid']; ?>" class="delete_btn" onclick="return confirm('Xóa sản phẩm này?');">Xóa</a>
       </div>
       <?php
